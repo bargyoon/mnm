@@ -67,18 +67,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.loginPage("/member/login")
 		.defaultSuccessUrl("/");
 		
-//		http.oauth2Login().loginPage("/member/login")
-//		.successHandler(oAuthSuccessHandler)
-//		.failureHandler(oAuthFailureHandler);
+		http.oauth2Login().loginPage("/member/login")
+		.successHandler(oAuthSuccessHandler)
+		.failureHandler(oAuthFailureHandler);
 		
-//		http.csrf().ignoringAntMatchers("/mail");
-//		http.logout().logoutUrl("/member/logout")
-//		.logoutSuccessUrl("/member/login");
-		
+		http.csrf().ignoringAntMatchers("/mail");
+		http.logout().logoutUrl("/member/logout")
+		.logoutSuccessUrl("/member/login");
+
 //		http.rememberMe()
 //		.userDetailsService(memberService)
 //		.tokenRepository(tokenRepository());
-		
+
 	}
 	
 	

@@ -24,7 +24,7 @@
 							<div class="card-3d-wrapper">
 								<div class="card-front"><div class="center-wrap">
 										<form class="section text-center" action="/member/login"
-											method="get">
+											method="post">
 											<h4 class="mb-4 pb-3">Log In</h4>
 											<div class="form-group">
 												<input type="text" name="userId" class="form-style"
@@ -36,10 +36,9 @@
 													placeholder="비밀번호" id="password" autocomplete="off">
 												<i class="input-icon uil uil-lock-alt"></i>
 											</div>
-											<th:block th:if
-													test="${not empty param.err}" style="color: moccasin">
+											<span th:if ="${param.error}" th:text="${message}" style="color: moccasin">
                 			아이디 또는 비밀번호가 틀렸습니다.
-                		</th:block>
+                		</span>
 
 
 											<p class="mb-0 mt-4 text-center">
