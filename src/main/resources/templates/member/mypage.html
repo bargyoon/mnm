@@ -3,13 +3,13 @@
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
-<%@ include file="/WEB-INF/views/include/head.jsp"%>
-<link rel="stylesheet" href="/resources/css/member/mypage.css">
+	<th:block th:replace="fragments :: flg_head"></th:block>
+<link rel="stylesheet" href="/css/member/mypage.css">
 </head>
 <body class="bg-right" style="height: 100vh">
 
 	<!-- Top navbar -->
-	<%@ include file="/WEB-INF/views/include/nav.jsp"%>
+	<th:block th:replace="fragments :: navbar"></th:block>
 	<div class="container-fluid"
 		style="padding-top: 9rem; padding-bottom: 9rem; min-height: 92vh">
 		<div class="row">
@@ -388,10 +388,10 @@
 	</div>
 
 
-	<%@ include file="/WEB-INF/views/include/footer.jsp"%>
+	<th:block th:replace="fragments :: footer"></th:block>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script src="/resources/js/member/mypage.js"></script>
-	<%@ include file="/WEB-INF/views/include/jsFiles.jsp"%>
+	<script src="/js/member/mypage.js"></script>
+	<th:block th:replace="fragments :: jsFiles"></th:block>
 	<script type="text/javascript">
 	(()=>{if("${authMentor}" != ""){
 		var dataArr = ["${authMentor.grade}","${authMentor.major}","${authMentor.wantDay}","${authMentor.wantTime}","${authMentor.requirement}"];

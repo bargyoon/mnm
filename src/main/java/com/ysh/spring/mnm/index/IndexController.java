@@ -41,5 +41,10 @@ public class IndexController {
 		
 		return "index";
 	}
+
+	@GetMapping("index")
+	public void home(){
+
+	}
 	
 }
