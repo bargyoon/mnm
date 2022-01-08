@@ -75,6 +75,7 @@ public class MemberController {
             , HttpSession session
             , RedirectAttributes redirectAttr){
 
+        return "/";
     }
 
 
