@@ -12,6 +12,7 @@ public class JoinForm {
 	private String userName;
 	private String userId;
 	private String password;
+	private String repassword;
 	private String email;
 	private String address;
 	private String phone;
@@ -22,6 +23,7 @@ public class JoinForm {
 		member.setUserName(userName);
 		member.setUserId(userId);
 		member.setPassword(password);
+
 		member.setEmail(email);
 		member.setAddress(address);
 		member.setPhone(phone);

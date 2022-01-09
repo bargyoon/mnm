@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.ysh.spring.mnm.common.util.file.FileInfo;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -39,5 +40,11 @@ public class Mentor {
 	private Boolean profileImg;
 	private String accountNum;
 	private String bank;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private FileInfo fileInfo;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private FileInfo qrInfo;
 	
 }
