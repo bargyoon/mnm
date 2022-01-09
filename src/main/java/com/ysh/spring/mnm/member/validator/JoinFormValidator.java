@@ -44,33 +44,14 @@ public class JoinFormValidator implements Validator {
 //            errors.rejectValue("email", "err-email", "존재하는 이메일입니다..");
 //        }
 
-        // 비밀번호가 영어, 숫자, 특수문자 조합의 8자리 이상의 문자열인지 확인
-        if (!Pattern.matches("(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Zㄱ-힣0-9]).{8,}", password)) {
-            failedValidation.put("password", password);
-            isFailed = true;
-        }
-
         // 비밀번호 확인이 비밀번호와 같은지 확인
         if (!rePassword.equals(password)) {
             failedValidation.put("passwordConfirmation", rePassword);
             isFailed = true;
         }
 
-        // 전화번호가 숫자로만 이루어져 있는 지 확인
-        if (!Pattern.matches("\\d{6,8}", phone)) {
-            failedValidation.put("phone", phone);
-            isFailed = true;
-        }
 
-        if (isFailed) {
-            request.getSession().setAttribute("joinValid", failedValidation);
-            request.getSession().setAttribute("joinForm", this);
-            return false;
-        } else {
-            request.getSession().removeAttribute("joinValid");
-            request.getSession().removeAttribute("joinForm");
-            return true;
-        }
+
 
         //2. 비밀번호가 8글자 이상, 숫자 영문자 특수문자 조합인 지 확인
         if(!Pattern.matches("(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Zㄱ-힣0-9]).{8,}", form.getPassword())) {
