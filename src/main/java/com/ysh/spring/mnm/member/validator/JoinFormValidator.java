@@ -14,13 +14,12 @@ public class JoinFormValidator implements Validator {
 
     @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
-    private final MemberService memberService;
 
-    public JoinFormValidator(MemberRepository memberRepository, MemberService memberService) {
+
+    public JoinFormValidator(MemberRepository memberRepository) {
         super();
         this.memberRepository = memberRepository;
-        this.memberService = memberService;
+
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.ysh.spring.mnm.member;
 
+import com.ysh.spring.mnm.common.validator.ValidatorResult;
 import com.ysh.spring.mnm.member.validator.JoinForm;
 import com.ysh.spring.mnm.member.validator.JoinFormValidator;
+import com.ysh.spring.mnm.member.validator.ModifyPasswordValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 
 @Controller
@@ -22,6 +25,7 @@ public class MemberController {
 
     private MemberService memberService;
     private JoinFormValidator joinFormValidator;
+    private ModifyPasswordValidator modifyPasswordValidator;
 
     @InitBinder(value="joinForm")
     public void initBinder(WebDataBinder webDataBinder) {
@@ -38,12 +42,12 @@ public class MemberController {
         return "member/join-rule";
     }
 
-    @GetMapping("join-form-mentee")
+    @GetMapping("join-mentee")
     public void menteeJoin(){
 
     }
 
-    @GetMapping("join-form-mentor")
+    @GetMapping("join-mentor")
     public void mentorJoin(){
 
     }
@@ -74,8 +78,23 @@ public class MemberController {
             , Model model
             , HttpSession session
             , RedirectAttributes redirectAttr){
+        ValidatorResult vr = new ValidatorResult();
+        model.addAttribute("error", vr.getError());
 
-        return "/";
+        if(errors.hasErrors()) {
+            vr.addErrors(errors);
+            return "member/join-mentor";
+        }
+        String token = UUID.randomUUID().toString();
+        session.setAttribute("persistToken", token);
+        session.setAttribute("persistUser", form);
+
+        redirectAttr.addFlashAttribute("message","회원가입완료를 위한 이메일이 발송되었습니다.");
+
+        //memberService.authenticateByEmail(form,token);
+
+        return "redirect:/";
+
     }
 
 
