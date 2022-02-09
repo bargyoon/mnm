@@ -27,6 +27,13 @@ public class MemberController {
     private JoinFormValidator joinFormValidator;
     private ModifyPasswordValidator modifyPasswordValidator;
 
+    public MemberController(MemberService memberService, JoinFormValidator joinFormValidator, ModifyPasswordValidator modifyPasswordValidator) {
+        super();
+        this.memberService = memberService;
+        this.joinFormValidator = joinFormValidator;
+        this.modifyPasswordValidator = modifyPasswordValidator;
+    }
+
 
     @InitBinder(value="joinForm")
     public void initBinder(WebDataBinder webDataBinder) {

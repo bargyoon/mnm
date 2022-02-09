@@ -15,7 +15,7 @@
 
 		<!-- Registeration Form -->
 		<div class="col-md-7 col-lg-6 m-auto">
-			<form th:action="/member/join-mentor" method="post" th:object="${joinForm}">
+			<form th:action="@{/member/join-mentor}" method="post" th:object="${joinForm}">
 				<div class="row" style="padding: 22px;">
 
 					<!-- Name -->
@@ -27,9 +27,7 @@
 							</span>
 						</div>
 						<input id="userName" type="text" name="userName" placeholder="이름"
-							   th:value="*{#fields.hasErrors('userName') ? '' : userName}"
-							   th:value="*{#fields.hasErrors('kakaoName') ? '' : kakaoName}"
-							required class="form-control bg-white border-left-0 border-md">
+						required class="form-control bg-white border-left-0 border-md">
 					</div>
 
 					<!-- UserId -->
