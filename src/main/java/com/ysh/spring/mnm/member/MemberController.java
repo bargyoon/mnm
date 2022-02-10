@@ -34,7 +34,6 @@ public class MemberController {
         this.modifyPasswordValidator = modifyPasswordValidator;
     }
 
-
     @InitBinder(value="joinForm")
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(joinFormValidator);
