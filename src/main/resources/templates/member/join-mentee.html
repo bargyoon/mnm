@@ -16,7 +16,7 @@
 
          <!-- Registeration Form -->
          <div class="col-md-7 col-lg-6 m-auto">
-            <form action="/member/join-mentee" method="post">
+            <form th:action="@{/member/join-mentee}" method="post" th:object="${joinForm}">
                <div class="row" style="padding: 22px;">
 
                   <!-- Name -->
@@ -28,190 +28,159 @@
                         </span>
                      </div>
                      <input id="userName" type="text" name="userName" placeholder="이름"
-                        <c:if test="${not empty param.err and empty joinValid.userName}">
-                            value="${joinForm.userName}"
-                                  </c:if>
-                                  <c:if test="${not empty kakao.userName}">
-                            value="${kakao.userName}"
-                                  </c:if>
                         required class="form-control bg-white border-left-0 border-md">
                         
                   </div>
 
-                  <!-- UserId -->
+
+                   <!-- UserId -->
 
 
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-user text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="userId" type="text" name="userId" placeholder="아이디"
-                        required class="form-control bg-white border-left-0 border-md"
-                        <c:if test="${not empty param.err and empty joinValid.userId}">
-                            value="${joinForm.userId}"
-                                  </c:if>>
-                     <button class="btn btn-outline-secondary checkIdBtn" style="font-weight: bold;">중복검사</button>
-                  </div>
-                  <span class="valid-msg" id="idCheck"> </span>
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-user text-muted"></i>
+							</span>
+                       </div>
+                       <input id="userId" type="text" name="userId" placeholder="아이디"
+                              required class="form-control bg-white border-left-0 border-md"
+                              th:value="*{#fields.hasErrors('userId') ? '' : userId}">
+                       <button class="btn btn-outline-secondary checkIdBtn"
+                               style="font-weight: bold;">중복검사</button>
+                   </div>
+                   <span th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"
+                         id="idCheck" class="valid-msg"></span>
 
-                  <!-- Password -->
-                  <div class="input-group col-lg-6 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-lock text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="password" type="password" name="password" required
-                        <c:if test="${not empty param.err and empty joinValid.password}">
-                         value="${joinForm.password}"
-                            </c:if>
-                        placeholder="비밀번호"
-                        class="form-control bg-white border-left-0 border-md">
-                  </div>
-                  
-
-                  <!-- Password Confirmation -->
-                  <div class="input-group col-lg-6 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-lock text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="passwordConfirmation" type="password"
-                        name="passwordConfirmation" placeholder="비밀번호 확인" required
-                        class="form-control bg-white border-left-0 border-md">
-                  </div>
-                  <span id="pwCheck" class="valid-msg"> 
-                  <c:choose><c:when test="${not empty param.err and not empty joinValid.password}">
-                         영어,숫자,특수문자 조합의 8글자 이상입니다.
-                      </c:when>
-                      <c:when test="${not empty param.err and not empty joinValid.passwordConfirmation}">
-                         비밀번호가 일치하지 않습니다.
-                      </c:when>
-                      <c:otherwise>
-                      <p style="color:black">영어,숫자,특수문자 조합의 8글자 이상입니다.</p>
-                      </c:otherwise>
-                      </c:choose>
-                  </span>
-
-                  <!-- Email Address -->
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-envelope text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="email" type="email" name="email" placeholder="이메일"
-                     <c:if test="${not empty param.err and empty joinValid.email}">
-                            value="${joinForm.email}"
-                                  </c:if>
-                                  <c:if test="${not empty kakao.email}">
-                            value="${kakao.email}"
-                                  </c:if>
-                        required class="form-control bg-white border-left-0 border-md">
-                  </div>
-                  <span id="emailCheck" class="valid-msg">
-                <c:if test="${not empty param.err and not empty joinValid.email}">
-                   이미 사용중이 email입니다.
-                </c:if>
-                </span>
-                  <!-- Gender -->
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fas fa-venus-mars text-muted"></i>
-                        </span>
-                     </div>
-                     <div id="gender" name="gender" placeholder="성별"
-                        class="form-control bg-white border-left-0 border-md text-muted"
-                        style="max-width: 80px; display: flex; align-content: center; flex-wrap: wrap; justify-content: flex-start;">성별</div>
-                     <div
-                        style="display: flex; justify-content: space-around; align-content: center; flex-wrap: wrap;"
-                        class="form-control bg-white border-left-0 border-md h-70 font-weight-bold">
-                        <div>
-                           <input type="radio" id="gender-m" name="gender-radio"
-                              value="male" class="form-check-input" checked> <label
-                              class="form-check-label" for="male">남 </label>
-                        </div>
-                        <div>
-                           <input id="gender-f" name="gender-radio" type="radio"
-                              value="female" class="form-check-input"> <label
-                              class="form-check-label" for="female">여</label>
-                        </div>
+                   <!-- Password -->
+                   <div class="input-group col-lg-6 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-lock text-muted"></i>
+							</span>
+                       </div>
+                       <input id="password" type="password" name="password" required
+                              th:value="*{#fields.hasErrors('password') ? '' : password}"
+                              placeholder="비밀번호"
+                              class="form-control bg-white border-left-0 border-md">
+                   </div>
 
 
-                     </div>
-                  </div>
+                   <!-- Password Confirmation -->
+                   <div class="input-group col-lg-6 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-lock text-muted"></i>
+							</span>
+                       </div>
+                       <input id="rePassword" type="password"
+                              name="rePassword" placeholder="비밀번호 확인" required
+                              class="form-control bg-white border-left-0 border-md">
+                   </div>
 
-                  <!-- Address -->
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fas fa-home text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="address" type="text" name="address" placeholder="주소"
-                        <c:if test="${not empty param.err and empty joinValid.address}">
-                            value="${joinForm.address}"
-                                  </c:if>
-                        required class="form-control bg-white border-left-0 border-md">
-                  </div>
+                   <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                         id="pwCheck" class="valid-msg"></span>
+                   <span th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"
+                         id="confirmPw" class="valid-msg"></span>
 
-                  <!-- Phone Number -->
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-phone-square text-muted"></i>
-                        </span>
-                     </div>
-                     <select id="countryCode" name="countryCode"
-                        style="max-width: 80px"
-                        class="custom-select form-control bg-white border-left-0 border-md h-100 font-weight-bold text-muted">
-                        <option value="010">010</option>
-                        <option value="011">011</option>
-                        <option value="019">019</option>
-                        <option value="017">017</option>
-                     </select> <input id="phone" type="tel" name="phone"
-                        placeholder="전화번호(-빼고 입력)" required
-                        <c:if test="${not empty param.err and empty joinValid.phone}">
-                value="${joinForm.phone}"
-                </c:if>
-                        class="form-control bg-white border-md border-left-0 pl-3">
-                  </div>
-                  <span id="tellCheck" class="valid-msg">
-                <c:if test="${not empty param.err and not empty joinValid.phone}">
-                   휴대폰 번호는 9-11자리의 숫자입니다.
-                </c:if>
-                </span>
+                   </span>
 
+                   <!-- Email Address -->
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-envelope text-muted"></i>
+							</span>
+                       </div>
+                       <input id="email" type="email" name="email" placeholder="이메일"
+                              th:value="*{#fields.hasErrors('email') ? '' : email}"
 
-                  <!-- Nickname -->
-                  <div class="input-group col-lg-12 mb-4">
-                     <div class="input-group-prepend">
-                        <span
-                           class="input-group-text bg-white px-4 border-md border-right-0">
-                           <i class="fa fa-user text-muted"></i>
-                        </span>
-                     </div>
-                     <input id="nickname" type="text" name="nickname"
-                        placeholder="닉네임(선택)"
-                        <c:if test="${not empty param.err and empty joinValid.nickname}">
-                            value="${joinForm.nickname}"
-                                  </c:if>
-                        class="form-control bg-white border-left-0 border-md">
-                  </div>
+                              required class="form-control bg-white border-left-0 border-md">
+                   </div>
+
+                   <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                         id="emailCheck" class="valid-msg"></span>
+                   <!-- Gender -->
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fas fa-venus-mars text-muted"></i>
+							</span>
+                       </div>
+                       <div id="gender" name="gender" placeholder="성별"
+                            class="form-control bg-white border-left-0 border-md text-muted"
+                            style="max-width: 80px; display: flex; align-content: center; flex-wrap: wrap; justify-content: flex-start;">성별</div>
+                       <div
+                               style="display: flex; justify-content: space-around; align-content: center; flex-wrap: wrap;"
+                               class="form-control bg-white border-left-0 border-md h-70 font-weight-bold">
+                           <div>
+                               <input type="radio" id="gender-m" name="gender-radio"
+                                      value="male" class="form-check-input" checked> <label
+                                   class="form-check-label" for="gender-m">남 </label>
+                           </div>
+                           <div>
+                               <input id="gender-f" name="gender-radio" type="radio"
+                                      value="female" class="form-check-input"> <label
+                                   class="form-check-label" for="gender-f">여</label>
+                           </div>
 
 
-                 <!-- Divide Line -->
+                       </div>
+                   </div>
+
+                   <!-- Address -->
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fas fa-home text-muted"></i>
+							</span>
+                       </div>
+                       <input id="address" type="text" name="address" placeholder="주소"
+                              th:value="*{#fields.hasErrors('address') ? '' : address}"
+                              required class="form-control bg-white border-left-0 border-md">
+                   </div>
+
+                   <!-- Phone Number -->
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-phone-square text-muted"></i>
+							</span>
+                       </div>
+                       <select id="countryCode" name="countryCode"
+                               style="max-width: 80px"
+                               class="custom-select form-control bg-white border-left-0 border-md h-100 font-weight-bold text-muted">
+                           <option value="010">010</option>
+                           <option value="011">011</option>
+                           <option value="019">019</option>
+                           <option value="017">017</option>
+                       </select> <input id="phone" type="tel" name="phone"
+                                        placeholder="전화번호(-빼고 입력)" required
+                                        th:value="*{#fields.hasErrors('phone') ? '' : phone}"
+                                        class="form-control bg-white border-md border-left-0 pl-3">
+                   </div>
+                   <span id="tellCheck" class="valid-msg" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">
+					</span>
+
+
+                   <!-- Nickname -->
+                   <div class="input-group col-lg-12 mb-4">
+                       <div class="input-group-prepend">
+							<span
+                                    class="input-group-text bg-white px-4 border-md border-right-0">
+								<i class="fa fa-user text-muted"></i>
+							</span>
+                       </div>
+                       <input id="nickname" type="text" name="nickname" placeholder="닉네임(선택)"
+                              class="form-control bg-white border-left-0 border-md">
+                   </div>
+                   <!-- Divide Line -->
 					<div
 						class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
 						<div class="border-bottom " style="width: 40%;"></div>

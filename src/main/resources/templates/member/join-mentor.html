@@ -72,8 +72,8 @@
 								<i class="fa fa-lock text-muted"></i>
 							</span>
 						</div>
-						<input id="passwordConfirmation" type="password"
-							name="passwordConfirmation" placeholder="비밀번호 확인" required
+						<input id="rePassword" type="password"
+							name="rePassword" placeholder="비밀번호 확인" required
 							class="form-control bg-white border-left-0 border-md">
 					</div>
 
@@ -94,7 +94,7 @@
 						</div>
 						<input id="email" type="email" name="email" placeholder="이메일"
 							   th:value="*{#fields.hasErrors('email') ? '' : email}"
-							   th:value="*{#fields.hasErrors('kakaoMail') ? '' : kakaoMail}"
+
 							required class="form-control bg-white border-left-0 border-md">
 					</div>
 
@@ -175,7 +175,6 @@
 							</span>
 						</div>
 						<input id="nickname" type="text" name="nickname" placeholder="닉네임(선택)"
-							   th:value="*{#fields.hasErrors('nickname') ? '' : nickname}"
 							class="form-control bg-white border-left-0 border-md">
 					</div>
 

@@ -12,7 +12,7 @@ public class JoinForm {
 	private String userName;
 	private String userId;
 	private String password;
-	private String repassword;
+	private String rePassword;
 	private String email;
 	private String address;
 	private String phone;

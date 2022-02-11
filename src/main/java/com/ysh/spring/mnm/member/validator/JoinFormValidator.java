@@ -33,8 +33,8 @@ public class JoinFormValidator implements Validator {
         JoinForm form = (JoinForm)target;
 
         // 비밀번호 확인이 비밀번호와 같은지 확인
-        if (!form.getRepassword().equals(form.getPassword())) {
-            errors.rejectValue("repassword", "err-repassword", "비밀번호가 일치하지 않습니다.");
+        if (!form.getRePassword().equals(form.getPassword())) {
+            errors.rejectValue("rePassword", "err-rePassword", "비밀번호가 일치하지 않습니다.");
         }
 
 

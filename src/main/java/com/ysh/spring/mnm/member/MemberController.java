@@ -3,6 +3,7 @@ package com.ysh.spring.mnm.member;
 import com.ysh.spring.mnm.common.validator.ValidatorResult;
 import com.ysh.spring.mnm.member.validator.JoinForm;
 import com.ysh.spring.mnm.member.validator.JoinFormValidator;
+import com.ysh.spring.mnm.member.validator.ModifyPassword;
 import com.ysh.spring.mnm.member.validator.ModifyPasswordValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +36,13 @@ public class MemberController {
     }
 
     @InitBinder(value="joinForm")
-    public void initBinder(WebDataBinder webDataBinder) {
+    public void initJoinFormBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(joinFormValidator);
+    }
+
+    @InitBinder(value="modifyPassword")
+    public void initModifyPasswordBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(modifyPasswordValidator);
     }
 
     @GetMapping("login")
@@ -51,13 +57,13 @@ public class MemberController {
     }
 
     @GetMapping("join-mentee")
-    public void menteeJoin(){
-
+    public void menteeJoin(Model model){
+        model.addAttribute(new JoinForm()).addAttribute("error",new ValidatorResult().getError());
     }
 
     @GetMapping("join-mentor")
-    public void mentorJoin(){
-
+    public void mentorJoin(Model model){
+        model.addAttribute(new JoinForm()).addAttribute("error",new ValidatorResult().getError());
     }
 
     @GetMapping("mypage")
@@ -66,8 +72,22 @@ public class MemberController {
     }
 
     @GetMapping("forget-password")
-    public void forgetPassword(){
+    public void forgetPassword(Model model){
+        model.addAttribute(new ModifyPassword()).addAttribute("error",new ValidatorResult().getError());
+    }
 
+    @PostMapping("reset-password")
+    public String resetPassword(String email, Model model, HttpSession session){
+        Member certifiedMember = new Member();
+        if(certifiedMember == null){
+
+            model.addAttribute("email", "존재하지 않는 회원입니다.");
+            return "/member/forget-password";
+        }
+
+        //sendEmailForReset(certifiedMember, session, model);
+
+        return "/common/result";
     }
 
     @GetMapping("confirm-pw")
@@ -105,6 +125,30 @@ public class MemberController {
 
     }
 
+    @PostMapping("join-mentee")
+    public String joinMentee(@Validated JoinForm form
+            , Errors errors
+            , Model model
+            , HttpSession session
+            , RedirectAttributes redirectAttr){
+        ValidatorResult vr = new ValidatorResult();
+        model.addAttribute("error", vr.getError());
+
+        if(errors.hasErrors()) {
+            vr.addErrors(errors);
+            return "member/join-mentee";
+        }
+        String token = UUID.randomUUID().toString();
+        session.setAttribute("persistToken", token);
+        session.setAttribute("persistUser", form);
+
+        redirectAttr.addFlashAttribute("message","회원가입완료를 위한 이메일이 발송되었습니다.");
+
+        //memberService.authenticateByEmail(form,token);
+
+        return "redirect:/";
+
+    }
 
 
 }
