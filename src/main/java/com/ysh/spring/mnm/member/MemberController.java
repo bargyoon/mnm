@@ -72,8 +72,9 @@ public class MemberController {
     }
 
     @GetMapping("forget-password")
-    public void forgetPassword(Model model){
+    public String forgetPassword(Model model){
         model.addAttribute(new ModifyPassword()).addAttribute("error",new ValidatorResult().getError());
+        return "member/confirm-pw";
     }
 
     @PostMapping("reset-password")
@@ -82,7 +83,7 @@ public class MemberController {
         if(certifiedMember == null){
 
             model.addAttribute("email", "존재하지 않는 회원입니다.");
-            return "/member/forget-password";
+            return "/member/change-pw";
         }
 
         //sendEmailForReset(certifiedMember, session, model);
@@ -96,8 +97,9 @@ public class MemberController {
     }
 
     @GetMapping("change-pw")
-    public void changePassword(){
-
+    public String changePassword(Model model){
+        model.addAttribute(new ModifyPassword()).addAttribute("error",new ValidatorResult().getError());
+        return "/";
     }
 
     @PostMapping("join-mentor")
