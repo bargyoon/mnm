@@ -1,11 +1,9 @@
 package com.ysh.spring.mnm.common.util.file;
 
 import java.time.LocalDate;
+import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.ysh.spring.mnm.common.code.Config;
 import org.hibernate.annotations.DynamicInsert;
@@ -28,9 +26,10 @@ public class FileInfo {
 	private String originFileName;
 	private String renameFileName;
 	private String savePath;
-	@Column(columnDefinition = "date default sysdate")
-	private LocalDate regDate;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date regDate;
+	@Column(columnDefinition = "integer default 0")
 	private Boolean isDel;
 
 	public String getDownloadURL() {

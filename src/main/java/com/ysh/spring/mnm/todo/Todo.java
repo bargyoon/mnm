@@ -30,7 +30,7 @@ public class Todo {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String title;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean isDone;
 	private String todoColor;
 	

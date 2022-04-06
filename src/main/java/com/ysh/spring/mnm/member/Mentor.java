@@ -23,6 +23,7 @@ public class Mentor {
 	@Id
 	@GeneratedValue
 	private Long mentorIdx;
+
 	@OneToOne
 	@JoinColumn(name="userIdx")
 	private Member member;
@@ -34,9 +35,11 @@ public class Mentor {
 	private String wantTime;
 	private String requirement;
 	private String history;
-	@Column(columnDefinition = "number default 0")
+
+	@Column(columnDefinition = "integer default 0")
 	private int mentoringCnt;
-	@Column(columnDefinition = "number default 0")
+
+	@Column(columnDefinition = "integer default 0")
 	private Boolean profileImg;
 	private String accountNum;
 	private String bank;

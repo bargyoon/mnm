@@ -1,14 +1,9 @@
 package com.ysh.spring.mnm.board;
 
 import java.time.LocalDate;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.ysh.spring.mnm.member.Member;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,11 +22,12 @@ public class Board {
 	@GeneratedValue
 	private Long bdIdx;
 	private String bdTitle;
-	@Column(columnDefinition = "date default sysdate")
-	private LocalDate regDate;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date regDate;
+	@Column(columnDefinition = "integer default 0")
 	private int viewCount;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private int recCount;
 	private String bdContent;
 	@ManyToOne

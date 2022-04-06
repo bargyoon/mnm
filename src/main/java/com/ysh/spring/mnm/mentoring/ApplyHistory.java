@@ -2,13 +2,7 @@ package com.ysh.spring.mnm.mentoring;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.ysh.spring.mnm.member.Member;
 import org.hibernate.annotations.DynamicInsert;
@@ -29,12 +23,14 @@ public class ApplyHistory {
 	@ManyToOne
 	@JoinColumn(name = "userIdx")
 	private Member member;
-	
-	@Column(columnDefinition = "date default sysdate")
+
+	@Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyDate;
-	@Column(columnDefinition = "date default sysdate")
+	@Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date epDate;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private int reapplyCnt;
 	
 

@@ -30,21 +30,21 @@ public class MentorRating {
 	@ManyToOne
 	@JoinColumn(name = "userIdx")
 	private Member member;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean kindness;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean communication;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean professional;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean processRate;
-	@Column(columnDefinition = "number default 0")
+	@Column(columnDefinition = "integer default 0")
 	private Boolean appointment;
-	@Column(columnDefinition = "number default 0")
-	private Boolean explain;
+	@Column(columnDefinition = "integer default 0")
+	private Boolean explanation;
 	private String rate_comment;
-	@Column(columnDefinition = "number default 0")
-	private Boolean isDel;
+	@Column(columnDefinition = "integer default 0")
+	private Boolean isDeleted;
 	
 	
 	
