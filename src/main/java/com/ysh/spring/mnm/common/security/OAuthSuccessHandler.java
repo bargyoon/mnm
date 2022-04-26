@@ -14,14 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class OAuthSuccessHandler implements AuthenticationSuccessHandler{
+public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
-	
-		log.info(authentication.getPrincipal().toString());
-		response.sendRedirect("/");
-	}
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
+
+        log.info(authentication.getPrincipal().toString());
+        response.sendRedirect("/");
+    }
 
 }

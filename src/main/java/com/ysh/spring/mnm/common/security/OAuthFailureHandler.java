@@ -11,17 +11,16 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 @Component
-public class OAuthFailureHandler implements AuthenticationFailureHandler{
+public class OAuthFailureHandler implements AuthenticationFailureHandler {
 
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException, ServletException {
 
-		exception.printStackTrace();
-		response.sendRedirect("/member/login");
-		
-	}
+        exception.printStackTrace();
+        response.sendRedirect("/member/login");
 
-	
-	
+    }
+
+
 }

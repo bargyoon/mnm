@@ -15,26 +15,26 @@ import lombok.Data;
 @DynamicInsert
 @DynamicUpdate
 public class Member {
-	
-	@Id
-	@GeneratedValue
-	private Long userIdx;
 
-	private String userName;
-	private String userId;
-	private String password;
-	private String email;
-	private String gender;
-	private String address;
-	private String phone;
-	private String nickname;
-	private String userRole;
+    @Id
+    @GeneratedValue
+    private Long userIdx;
 
-	@Column(columnDefinition = "TIMESTAMP DEFAULT now()")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date joinDate;
+    private String userName;
+    private String userId;
+    private String password;
+    private String email;
+    private String gender;
+    private String address;
+    private String phone;
+    private String nickname;
+    private String userRole;
 
-	@Column(columnDefinition = "integer default 0")
-	private Boolean isLeave;
-	private String kakaoJoin;
+    @Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date joinDate;
+
+    @Column(columnDefinition = "integer default 0")
+    private Boolean isLeave;
+    private String kakaoJoin;
 }

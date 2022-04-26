@@ -30,7 +30,7 @@ public class JoinFormValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        JoinForm form = (JoinForm)target;
+        JoinForm form = (JoinForm) target;
 
         // 비밀번호 확인이 비밀번호와 같은지 확인
         if (!form.getRePassword().equals(form.getPassword())) {
@@ -39,11 +39,11 @@ public class JoinFormValidator implements Validator {
 
 
         //비밀번호가 8글자 이상, 숫자 영문자 특수문자 조합인 지 확인
-        if(!Pattern.matches("(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Zㄱ-힣0-9]).{8,}", form.getPassword())) {
+        if (!Pattern.matches("(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Zㄱ-힣0-9]).{8,}", form.getPassword())) {
             errors.rejectValue("password", "err-password", "비밀번호는 숫자 영문자 특수문자 조합인 8글자 이상의 문자열 입니다.");
         }
         //전화번호가 9-11자리의 숫자
-        if(!Pattern.matches("\\d{9,11}", form.getPhone())) {
+        if (!Pattern.matches("\\d{9,11}", form.getPhone())) {
             errors.rejectValue("phone", "err-phone", "전화번호는 9-11자리의 숫자입니다.");
         }
     }

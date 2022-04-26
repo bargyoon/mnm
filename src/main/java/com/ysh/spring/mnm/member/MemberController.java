@@ -35,52 +35,52 @@ public class MemberController {
         this.modifyPasswordValidator = modifyPasswordValidator;
     }
 
-    @InitBinder(value="joinForm")
+    @InitBinder(value = "joinForm")
     public void initJoinFormBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(joinFormValidator);
     }
 
-    @InitBinder(value="modifyPassword")
+    @InitBinder(value = "modifyPassword")
     public void initModifyPasswordBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(modifyPasswordValidator);
     }
 
     @GetMapping("login")
-    public void login(){
+    public void login() {
 
     }
 
     @GetMapping("join")
-    public String join(){
+    public String join() {
 
         return "member/join-rule";
     }
 
     @GetMapping("join-mentee")
-    public void menteeJoin(Model model){
-        model.addAttribute(new JoinForm()).addAttribute("error",new ValidatorResult().getError());
+    public void menteeJoin(Model model) {
+        model.addAttribute(new JoinForm()).addAttribute("error", new ValidatorResult().getError());
     }
 
     @GetMapping("join-mentor")
-    public void mentorJoin(Model model){
-        model.addAttribute(new JoinForm()).addAttribute("error",new ValidatorResult().getError());
+    public void mentorJoin(Model model) {
+        model.addAttribute(new JoinForm()).addAttribute("error", new ValidatorResult().getError());
     }
 
     @GetMapping("mypage")
-    public void myPage(){
+    public void myPage() {
 
     }
 
     @GetMapping("forget-password")
-    public String forgetPassword(Model model){
-        model.addAttribute(new ModifyPassword()).addAttribute("error",new ValidatorResult().getError());
+    public String forgetPassword(Model model) {
+        model.addAttribute(new ModifyPassword()).addAttribute("error", new ValidatorResult().getError());
         return "member/confirm-pw";
     }
 
     @PostMapping("reset-password")
-    public String resetPassword(String email, Model model, HttpSession session){
+    public String resetPassword(String email, Model model, HttpSession session) {
         Member certifiedMember = new Member();
-        if(certifiedMember == null){
+        if (certifiedMember == null) {
 
             model.addAttribute("email", "존재하지 않는 회원입니다.");
             return "/member/change-pw";
@@ -92,13 +92,13 @@ public class MemberController {
     }
 
     @GetMapping("confirm-pw")
-    public void confirmPassword(){
+    public void confirmPassword() {
 
     }
 
     @GetMapping("change-pw")
-    public String changePassword(Model model){
-        model.addAttribute(new ModifyPassword()).addAttribute("error",new ValidatorResult().getError());
+    public String changePassword(Model model) {
+        model.addAttribute(new ModifyPassword()).addAttribute("error", new ValidatorResult().getError());
         return "/";
     }
 
@@ -107,11 +107,11 @@ public class MemberController {
             , Errors errors
             , Model model
             , HttpSession session
-            , RedirectAttributes redirectAttr){
+            , RedirectAttributes redirectAttr) {
         ValidatorResult vr = new ValidatorResult();
         model.addAttribute("error", vr.getError());
 
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             vr.addErrors(errors);
             return "member/join-mentor";
         }
@@ -119,7 +119,7 @@ public class MemberController {
         session.setAttribute("persistToken", token);
         session.setAttribute("persistUser", form);
 
-        redirectAttr.addFlashAttribute("message","회원가입완료를 위한 이메일이 발송되었습니다.");
+        redirectAttr.addFlashAttribute("message", "회원가입완료를 위한 이메일이 발송되었습니다.");
 
         //memberService.authenticateByEmail(form,token);
 
@@ -132,11 +132,11 @@ public class MemberController {
             , Errors errors
             , Model model
             , HttpSession session
-            , RedirectAttributes redirectAttr){
+            , RedirectAttributes redirectAttr) {
         ValidatorResult vr = new ValidatorResult();
         model.addAttribute("error", vr.getError());
 
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             vr.addErrors(errors);
             return "member/join-mentee";
         }
@@ -144,7 +144,7 @@ public class MemberController {
         session.setAttribute("persistToken", token);
         session.setAttribute("persistUser", form);
 
-        redirectAttr.addFlashAttribute("message","회원가입완료를 위한 이메일이 발송되었습니다.");
+        redirectAttr.addFlashAttribute("message", "회원가입완료를 위한 이메일이 발송되었습니다.");
 
         //memberService.authenticateByEmail(form,token);
 
