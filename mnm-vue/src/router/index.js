@@ -61,6 +61,33 @@ export const routes = [
             footer: MainFooter,
         },
     },
+    {
+        name: 'LoginForm',
+        path: '/member/login',
+        components: {
+            default: () => import('../pages/member/LoginForm.vue'),
+            header: MainHeader,
+            footer: MainFooter,
+        },
+    },
+    {
+        name: 'JoinRule',
+        path: '/member/joinRule',
+        components: {
+            default: () => import('../pages/member/JoinRule.vue'),
+            header: MainHeader,
+            footer: MainFooter,
+        },
+    },
+    {
+        name: 'JoinForm',
+        path: '/member/form/:type',
+        components: {
+            default: () => import('../pages/member/JoinForm.vue'),
+            header: MainHeader,
+            footer: MainFooter,
+        },
+    },
 
 
 ];

@@ -116,6 +116,9 @@ a, a:hover {
     color: #fff;
 }
 
+.site-navbar-wrap li a {
+    color: black;
+}
 .site-navbar-wrap .site-navbar-top {
     font-size: 0.8rem;
 }

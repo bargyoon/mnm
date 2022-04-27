@@ -15,26 +15,20 @@
                     <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span
                         class="icon-menu h3" style="color:white"></span></a>
                   </div>
-
                   <div class="site-menu main-menu js-clone-nav d-none d-lg-block">
                     <!--                    <b-nav-item><a href="/member/login" class="nav-link">로그인</a></b-nav-item>-->
                     <!--                    <b-nav-item><a href="/member/join" class="nav-link">회원가입</a></b-nav-item>-->
-
-
                     <b-nav-item class="nav-link">멘토신청</b-nav-item>
                     <b-nav-item class="nav-link">멘토링 관리</b-nav-item>
                     <b-nav-item class="nav-link" href="/board/mentor">멘토게시판
                       <!--                          <a href="/meboard/mentee" class="nav-link">멘티게시판</a>-->
                     </b-nav-item>
-
                     <b-nav-item class="nav-link">일정관리</b-nav-item>
                     <b-nav-item-dropdown text="안녕하세요" class="nav-link">
-                      <b-dropdown-item class="mypage"><a href="/mentoring/manage-page" style="color:black">마이페이지</a>
+                      <b-dropdown-item class="mypage" href="/member/joinRule" style="color:black">회원가입
                       </b-dropdown-item>
-                      <b-dropdown-item><a href="/mentoring/manage-page" style="color:black">로그아웃</a></b-dropdown-item>
+                      <b-dropdown-item href="/member/login" style="color:black">로그인</b-dropdown-item>
                     </b-nav-item-dropdown>
-
-
                   </div>
                 </b-container>
               </b-nav>
@@ -52,6 +46,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

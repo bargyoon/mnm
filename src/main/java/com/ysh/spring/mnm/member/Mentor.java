@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 @DynamicInsert
@@ -16,11 +18,22 @@ public class Mentor {
 
     @Id
     @GeneratedValue
-    private Long mentorIdx;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userIdx")
-    private Member member;
+    private Long userIdx;
+    private String userName;
+    private String userId;
+    private String password;
+    private String email;
+    private String gender;
+    private String address;
+    private String phone;
+    private String nickname;
+    private String userRole;
+    @Column(columnDefinition = "TIMESTAMP DEFAULT now()")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date joinDate;
+    @Column(columnDefinition = "integer default 0")
+    private Boolean isLeave;
+    private String kakaoJoin;
     private String universityName;
     private String universityType;
     private int grade;

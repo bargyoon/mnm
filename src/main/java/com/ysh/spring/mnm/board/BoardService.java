@@ -33,26 +33,13 @@ public class BoardService {
     }
 
     public Page<Board> findSearchList(Pageable pageable, String type, String keyword) {
-        // return type.equals("bdTitle") ? boardRepository.findAllByBdTitleContains(keyword, pageable) : boardRepository.findAllByMember_UserIdxLike(Long.parseLong(keyword), pageable);
-        if (type.equals("bdTitle")) {
-            return boardRepository.findAllByBdTitleContains(keyword, pageable);
-        } else {
-//            Optional<Member> member = memberRepository.findById((long) Integer.parseInt(keyword));
-//            log.info(member.get().toString());
-            return boardRepository.findAllByMember_UserIdxLike(Long.parseLong(keyword), pageable);
-        }
+        return type.equals("bdTitle") ? boardRepository.findAllByBdTitleContains(keyword, pageable) : boardRepository.findAllByMember_UserIdxLike(Long.parseLong(keyword), pageable);
     }
 
     public Board persistBoard(Board board, List<MultipartFile> files) {
         Board savedBoard = boardRepository.save(board);
         if (files != null) {
-            FileUtil fileUtil = new FileUtil();
-            for (int i = 0; i < files.size(); i++) {
-                FileInfo file = fileUtil.fileUpload(files.get(i));
-                file.setType("board");
-                file.setTypeIdx(savedBoard.getBdIdx());
-                fileRepository.save(file);
-            }
+            saveFiles(files, savedBoard.getBdIdx());
         }
         return savedBoard;
     }
@@ -68,23 +55,17 @@ public class BoardService {
 
     public Optional<Board> modifyBoard(Board board, Long[] dFiles, List<MultipartFile> files) {
         Optional<Board> savedBoard = boardRepository.findById(board.getBdIdx());
-
-        savedBoard.get().setBdTitle(board.getBdTitle());
-        savedBoard.get().setBdContent(board.getBdContent());
-        if (dFiles.length != 0) {
+        if(!savedBoard.isEmpty()){
+            savedBoard.get().setBdTitle(board.getBdTitle());
+            savedBoard.get().setBdContent(board.getBdContent());
             for (int i = 0; i < dFiles.length; i++) {
                 fileRepository.deleteById(dFiles[i]);
             }
-        }
-        if (files != null) {
-            FileUtil fileUtil = new FileUtil();
-            for (int i = 0; i < files.size(); i++) {
-                FileInfo file = fileUtil.fileUpload(files.get(i));
-                file.setType("board");
-                file.setTypeIdx(savedBoard.get().getBdIdx());
-                fileRepository.save(file);
+            if (files != null) {
+                saveFiles(files, savedBoard.get().getBdIdx());
             }
         }
+
         return savedBoard;
     }
 
@@ -101,9 +82,11 @@ public class BoardService {
     }
 
     public BoardComment modifyComment(BoardComment comment) {
-        BoardComment boardComment = commentRepository.findById(comment.getCoIdx()).get();
-        boardComment.setCoContent(comment.getCoContent());
-        return boardComment;
+        Optional<BoardComment> boardComment = commentRepository.findById(comment.getCoIdx());
+        if(!boardComment.isEmpty()){
+            boardComment.get().setCoContent(comment.getCoContent());
+        }
+        return boardComment.get();
     }
 
     public void deleteComment(Integer idx) {
@@ -121,5 +104,15 @@ public class BoardService {
         BoardComment boardComment = commentRepository.findById(coIdx).get();
         boardComment.setRecCount(boardComment.getRecCount()+1);
         return boardComment;
+    }
+
+    private void saveFiles(List<MultipartFile> files, Long idx) {
+        FileUtil fileUtil = new FileUtil();
+        for (MultipartFile multiFile : files) {
+            FileInfo file = fileUtil.fileUpload(multiFile);
+            file.setType("board");
+            file.setTypeIdx(idx);
+            fileRepository.save(file);
+        }
     }
 }

@@ -24,15 +24,6 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("mentor")
-    public void mentor() {
-    }
-
-    @GetMapping("form")
-    public String boardForm() {
-        return "/board/mentor-board-create-form";
-    }
-
     @PostMapping("create")
     @ResponseBody
     public Board createBoard(@RequestParam("board") String board,
@@ -42,9 +33,7 @@ public class BoardController {
         Member member = new Member();
         member.setUserIdx(12345l);
         boardObj.setMember(member);
-
-        Board savedBoard = boardService.persistBoard(boardObj, files);
-        return savedBoard;
+        return boardService.persistBoard(boardObj, files);
     }
 
     @PutMapping("modify")
@@ -54,15 +43,12 @@ public class BoardController {
                                        @RequestParam(value = "files", required = false) List<MultipartFile> files) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Board boardObj = mapper.readValue(board, Board.class);
-        Optional<Board> modiBoard = boardService.modifyBoard(boardObj, dFiles, files);
-        return modiBoard;
+        return boardService.modifyBoard(boardObj, dFiles, files);
     }
 
     @GetMapping("list")
     public Page<Board> boardList(Pageable pageable) {
-
-        Page<Board> boards = boardService.findBoardList(pageable);
-        return boards;
+        return boardService.findBoardList(pageable);
     }
 
     @GetMapping("searchList")
@@ -94,7 +80,6 @@ public class BoardController {
     @ResponseBody
     public BoardComment addComment(@PathVariable("id") Long idx,
                                    @RequestBody BoardComment boardComment) {
-        log.info(boardComment.toString());
         Member member = new Member();
         member.setUserIdx(12345l);
         boardComment.setMember(member);
