@@ -12,8 +12,8 @@
 								<i class="fa fa-user text-muted"></i>
 							</span>
             </div>
-            <b-form-input id="userName" v-model="user.username" class="form-control bg-white border-left-0 border-md"
-                          placeholder="이름" required/>
+            <b-form-input id="userName" v-model="user.userName" class="form-control bg-white border-left-0 border-md"
+                          :state="nameValidation" placeholder="이름" :required="true"/>
           </div>
           <!-- UserId -->
           <div class="input-group col-lg-12 mb-4">
@@ -23,13 +23,11 @@
 							</span>
             </div>
             <b-form-input id="userId" v-model="user.userId" class="form-control bg-white border-left-0 border-md"
-                          placeholder="아이디" required type="text"/>
-            <button class="btn btn-outline-secondary checkIdBtn"
+                          :state="checkId" placeholder="아이디" required type="text"/>
+            <button class="btn btn-outline-secondary checkIdBtn" @click="clickCheckId"
                     style="font-weight: bold;">중복검사
             </button>
           </div>
-          <span id="idCheck" class="valid-msg"
-                th:errors="*{userId}" th:if="${#fields.hasErrors('userId')}"></span>
 
           <!-- Password -->
           <div class="input-group col-lg-6 mb-4">
@@ -39,7 +37,7 @@
 							</span>
             </div>
             <b-form-input id="password" v-model="user.password" class="form-control bg-white border-left-0 border-md"
-                          placeholder="비밀번호" required type="password"/>
+                          :state="pwValidation" placeholder="비밀번호" required type="password"/>
           </div>
           <!-- Password Confirmation -->
           <div class="input-group col-lg-6 mb-4">
@@ -49,13 +47,10 @@
 								<i class="fa fa-lock text-muted"></i>
 							</span>
             </div>
-            <b-form-input id="rePassword" class="form-control bg-white border-left-0 border-md"
-                          name="rePassword" placeholder="비밀번호 확인" required type="password"/>
+            <b-form-input id="rePassword" v-model="rePassword" class="form-control bg-white border-left-0 border-md"
+                          :state="rePwValidation" name="rePassword" placeholder="비밀번호 확인" required type="password"/>
           </div>
-          <span id="pwCheck" class="valid-msg"
-                th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
-          <span id="confirmPw" class="valid-msg"
-                th:errors="*{rePassword}" th:if="${#fields.hasErrors('rePassword')}"></span>
+
           <!-- Email Address -->
           <div class="input-group col-lg-12 mb-4">
             <div class="input-group-prepend">
@@ -64,10 +59,9 @@
 							</span>
             </div>
             <b-form-input id="email" v-model="user.email" class="form-control bg-white border-left-0 border-md"
-                          placeholder="이메일" required type="email"/>
+                          :state="mailValidation" placeholder="이메일" required type="email"/>
           </div>
-          <span id="emailCheck" class="valid-msg"
-                th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></span>
+
           <!-- Gender -->
           <div class="input-group col-lg-12 mb-4">
             <div class="input-group-prepend">
@@ -91,7 +85,7 @@
 							</span>
             </div>
             <b-form-input id="address" v-model="user.address" class="form-control bg-white border-left-0 border-md"
-                   placeholder="주소" required />
+                          :state="addressValidation" placeholder="주소" required />
           </div>
           <!-- Phone Number -->
           <div class="input-group col-lg-12 mb-4">
@@ -100,27 +94,12 @@
 								<i class="fa fa-phone-square text-muted"></i>
 							</span>
             </div>
-            <b-form-select id="countryCode" v-model="phonePrefix" :options="phoneOptions"
-                           class="custom-select form-control bg-white border-left-0 border-md h-100 font-weight-bold text-muted"
-                           name="countryCode"
-                           style="max-width: 80px">
-            </b-form-select>
             <b-form-input id="phone" v-model="user.phone" class="form-control bg-white border-md border-left-0 pl-3"
-                          placeholder="전화번호(-빼고 입력)" required type="tel"/>
-          </div>
-          <span id="tellCheck" class="valid-msg" th:errors="*{phone}" th:if="${#fields.hasErrors('phone')}">
-					</span>
+                          placeholder="전화번호(-빼고 입력)" :state="phoneValidation" required type="tel"/>
+            <b-form-invalid-feedback :state="phoneValidation">전화번호는 9-11자리의 숫자입니다.</b-form-invalid-feedback>
 
-          <!-- Nickname -->
-          <div class="input-group col-lg-12 mb-4">
-            <div class="input-group-prepend">
-							<span class="input-group-text bg-white px-4 border-md border-right-0">
-								<i class="fa fa-user text-muted"></i>
-							</span>
-            </div>
-            <b-form-input id="nickname" v-model="user.nickname" class="form-control bg-white border-left-0 border-md"
-                          placeholder="닉네임(선택)" />
           </div>
+
           <template v-if="userType === 'mentor'">
             <!-- Divide Line -->
             <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
@@ -352,28 +331,24 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "JoinForm",
   data() {
     return {
+      errors: {},
       userType: '',
-      phonePrefix: '010',
-      phoneOptions: [
-        {value: '010', text: '010'},
-        {value: '011', text: '011'},
-        {value: '019', text: '019'},
-        {value: '017', text: '017'},
-      ],
+      rePassword: null,
       user: {
         userId: null,
-        username: null,
+        userName: null,
         password: null,
         email: null,
-        gender: null,
+        gender: 'm',
         address: null,
         phone: null,
-        nickname: null,
-        userRole: null,
+        userRole: 0,
       },
       mentor: {
         universityName: null,
@@ -384,8 +359,8 @@ export default {
         wantTime: null,
         requirement: null,
         history: null,
-        account: null,
-        bank: null,
+        accountNum: null,
+        bankName: null,
       },
       mentee: {
         schoolName: null,
@@ -406,7 +381,7 @@ export default {
         {value: 1, text: '1학년'},
         {value: 2, text: '2학년'},
         {value: 3, text: '3학년'},
-        {value: 9, text: '홈스쿨링'},
+        {value: 4, text: '홈스쿨링'},
       ],
       universityOptions: [
         { value: null, text: '학교 유형', disabled: true },
@@ -455,15 +430,117 @@ export default {
         {value: "yourTown", text: '멘티의 동네에서 대면 수업'},
         {value: "rentalSpace", text: '카페나 스터디룸 대여희망'},
       ],
+      checkId: null,
+
+
     }
+  },
+  computed: {
+    phoneValidation() {
+      if(this.user.phone === null || this.user.phone === '') {
+        return null;
+      }else if(this.user.phone.match('^\\d{9,11}$')){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    nameValidation() {
+      if(this.user.userName === null) {
+        return null;
+      }else if(this.user.userName.length !== 0){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    pwValidation() {
+      if(this.user.password === null) {
+        return null;
+      }else if(this.user.password.match('^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Zㄱ-힣0-9]).{8,}$')){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    rePwValidation() {
+      if(this.rePassword === null) {
+        return null;
+      }else if(this.rePassword === this.user.password && this.rePassword !== ''){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    mailValidation() {
+      if(this.user.email === null) {
+        return null;
+      }else if(this.user.email.length !== 0){
+        return true;
+      }else {
+        return false;
+      }
+    },
+    addressValidation() {
+      if(this.user.address === null) {
+        return null;
+      }else if(this.user.address.length !== 0){
+        return true;
+      }else {
+        return false;
+      }
+    },
   },
   created() {
     this.userType = this.$route.params.type;
   },
   methods: {
     submitBtn(){
-      let member = this.userType === 'mentor' ? {...this.user, ...this.mentor} : {...this.user, ...this.mentee};
-      console.log(member)
+      if(this.nameValidation === null || this.nameValidation === false) {
+        return;
+      } else if (this.checkId === null || this.checkId === false) {
+        return;
+      } else if (this.pwValidation === null || this.pwValidation === false) {
+        return;
+      } else if (this.rePwValidation === null || this.rePwValidation === false) {
+        return;
+      } else if (this.mailValidation === null || this.mailValidation === false) {
+        return;
+      } else if (this.addressValidation === null || this.addressValidation === false) {
+        return;
+      } else if (this.phoneValidation === null || this.phoneValidation === false) {
+        return;
+      }
+      let member = this.userType === 'mentor' ? {...this.user, ...this.mentor} : {...this.user, ...this.mentee, userRole: 1};
+      axios.post('/member/join', member)
+        .then(response => {
+          console.log(response);
+          this.$router.replace({
+            name:"Index",
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    clickCheckId() {
+      if(this.user.userId === null || this.user.userId === '') {
+        return;
+      }
+      axios.get('/member/check-id', {params: {userId: this.user.userId}})
+          .then(response => {
+            if(response.data.empty){
+              this.checkId = true;
+              alert("사용가능한 아이디 입니다.")
+            }else {
+              this.checkId = false;
+              alert("사용 불가능한 아이디 입니다.")
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
     }
   }
 

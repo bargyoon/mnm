@@ -18,7 +18,7 @@ public class Mentor {
 
     @Id
     @GeneratedValue
-    private Long userIdx;
+    private Long mentorIdx;
     private String userName;
     private String userId;
     private String password;
@@ -26,7 +26,6 @@ public class Mentor {
     private String gender;
     private String address;
     private String phone;
-    private String nickname;
     private String userRole;
     @Column(columnDefinition = "TIMESTAMP DEFAULT now()")
     @Temporal(TemporalType.TIMESTAMP)
@@ -49,7 +48,7 @@ public class Mentor {
     @Column(columnDefinition = "integer default 0")
     private Boolean profileImg;
     private String accountNum;
-    private String bank;
+    private String bankName;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private FileInfo fileInfo;

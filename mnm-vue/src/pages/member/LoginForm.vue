@@ -27,8 +27,7 @@
                         <a href="/member/forget-password" class="link">비밀번호를
                           잊으셨습니까?</a>
                       </p>
-                      <input type="submit" class="btn original mt-2 mb-2"
-                             value="로그인">
+                      <button class="btn original mt-2 mb-2" @click="login">로그인</button>
                       <div class="border-bottom "></div>
                       <a href="javascript:loginFormWithKakao()"
                          class="btn kakao mt-2">카카오로 로그인</a>
@@ -52,12 +51,30 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginForm",
   data() {
     return{
       userId: '',
       password: '',
+    }
+  },
+  methods: {
+    login() {
+      if(this.userId.trim() === '' || this.password.trim() === '') {
+        return;
+      }
+      axios.post('/member/login',  {userId: this.userId, password: this.password})
+          .then(response => {
+            console.log(response)
+
+          })
+          .catch(error => {
+            console.log(error);
+          })
+
     }
   }
 }

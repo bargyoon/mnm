@@ -54,17 +54,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/member/mypage", "/member/logout").authenticated()
-                .mvcMatchers(HttpMethod.GET, "/board/board-form", "/board/upload", "/board/modify").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/board/board-form", "/board/upload", "/board/modify/**").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and().oauth2Login();
 
 
         http.formLogin()
-                .loginProcessingUrl("/member/login")
-                .usernameParameter("userId")
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/");
+                .loginProcessingUrl("/member/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/member/login?error=true");
+
 
         http.oauth2Login().loginPage("/member/login")
                 .successHandler(oAuthSuccessHandler)
